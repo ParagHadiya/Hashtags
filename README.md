@@ -14,7 +14,8 @@ It helps users find trending, relevant, and optimized hashtags to improve their 
 ## 🛠️ Tech Stack
 - Python / Django  
 - HTML / CSS  
-- MySQL  
+- MySQL
+- BeautifulSoup (for data scraping)  
 
 ## ⚡ Installation
 ```bash
