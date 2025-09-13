@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  .text-diaplay{
+    margin-top:50rem;
+}
+</style>
+Hashtags<br>
+
+    <div style="border: 1px solid black;" class="text-diaplay">
+       <div class="hashtags">
+    {% for i in keywords %}
+        #{{i}}<br>
+    {% endfor %}
+       {{kyw}}
+        </div>
+    </div>
+{% endblock content %} 

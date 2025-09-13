@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<div class="hashtag-container">
+  <h1 class="title">🚀 Generate Your Hashtags!</h1>
+  <p class="subtitle">
+    Boost your social media reach with custom, relevant hashtags. Just enter a keyword or phrase below!
+  </p>
+
+  <form method="POST" action="{% url 'generate' %}" class="form-section">
+    {% csrf_token %}
+    <textarea id="input" name="input" placeholder="Enter keywords like travel, fitness, tech..." rows="4" cols="50" autocomplete="on">{{ request.POST.input }}</textarea>
+    <button type="submit" class="generate-btn" id="generate-btn">
+      <span class="btn-text">Generate</span>
+      <span class="loader" id="loader" style="display:none;"></span>
+    </button>
+    
+  </form>
+
+  {% if keywords %}
+  <form method="POST" id="hashtags-form" class="hashtags-section">
+    {% csrf_token %}
+    <h2 class="section-heading">🔥 Generated Hashtags</h2>
+    <div class="hashtags">
+      {% for i in keywords|slice:":300" %}
+        <label class="hashtag-box">
+          <input type="checkbox" name="selected_keywords" value="{{ i }}" onchange="copyHashtags()" />
+          <span>#{{ i }}</span>
+        </label>
+      {% endfor %}
+    </div>
+  </form>
+  {% endif %}
+
+  <div class="copy-section">
+    <h2>📋 Selected Hashtags</h2>
+    <textarea id="selected-hashtags" rows="4" cols="50" readonly></textarea>
+    <button type="button" onclick="copyToClipboard()" class="copy-btn">Copy to Clipboard</button>
+  </div>
+</div>
+
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ece9e6, #ffffff);
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+
+  .hashtag-container {
+    padding: 30px 5%;
+    max-width: 1200px;
+    margin: auto;
+    animation: fadeIn 1s ease-in;
+  }
+
+  .title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #0077ff;
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+  }
+
+  .form-section textarea {
+    width: 100%;
+    padding: 15px;
+    font-size: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    resize: vertical;
+    transition: border 0.3s ease;
+  }
+
+  .form-section textarea:focus {
+    border-color: #0077ff;
+    outline: none;
+  }
+
+  .generate-btn {
+    margin-top: 15px;
+    padding: 10px 25px;
+    background: #0077ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .generate-btn:hover {
+    background: #005fd9;
+  }
+
+  .section-heading {
+    margin-top: 40px;
+    font-size: 1.6rem;
+    text-align: center;
+  }
+
+  .hashtags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .hashtag-box {
+    background: #f5f5f5;
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hashtag-box:hover {
+    background: #0077ff;
+    color: white;
+    transform: scale(1.05);
+  }
+
+  .copy-section {
+    background: #fdfdfd;
+    border: 2px solid #0077ff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 40px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .copy-section textarea {
+    width: 100%;
+    padding: 10px;
+    resize: none;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 1rem;
+  }
+
+  .copy-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .copy-btn:hover {
+    background: #1e7e34;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
+    .hashtag-box {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .copy-section {
+      width: 90%;
+    }
+  }
+
+  .loader {
+  margin-left: 10px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #0077ff;
+  border-right: 3px solid #ff4b2b;
+  border-bottom: 3px solid #28a745;
+  border-left: 3px solid #ffc107;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+</style>
+
+<script>
+  function copyHashtags() {
+    const form = document.getElementById("hashtags-form");
+    const formData = new FormData(form);
+    let selectedHashtags = "";
+    for (const pair of formData.entries()) {
+      if (pair[0] === "selected_keywords") {
+        selectedHashtags += "#" + pair[1] + " ";
+      }
+    }
+    document.getElementById("selected-hashtags").value = selectedHashtags.trim();
+  }
+
+  function copyToClipboard() {
+    const copyText = document.getElementById("selected-hashtags");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    alert("Copied to clipboard ✅");
+  }
+
+  document.querySelector("form.form-section").addEventListener("submit", function() {
+  document.getElementById("generate-btn").disabled = true;
+  document.querySelector(".btn-text").innerText = "Generating...";
+  document.getElementById("loader").style.display = "inline-block";
+});
+
+</script>
+{% endblock content %}

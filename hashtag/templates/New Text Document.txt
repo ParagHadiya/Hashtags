@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hashtag Generator</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap">
+  <style>
+    :root {
+      --orange: #ff7800;
+      --black: #130f40;
+      --light-color: #666;
+      --box-shedow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+      --border: .2rem solid rgba(0, 0, 0, .1);
+      --outline: .1rem .5rem 1rem rgba(0, 0, 0, .1);
+      --outline-hover: .2rem solid var(--black);
+    }
+
+    * {
+      font-family: 'Raleway', sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      outline: none;
+      border: none;
+      text-decoration: none;
+      text-transform: capitalize;
+      transition: all 2s linear;
+    }
+
+    html {
+      font-size: 62.5%;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      scroll-padding-top: 7rem;
+    }
+
+    body {
+      background: #fff;
+      justify-content: center;
+    }
+
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem 9%;
+      background: #fff;
+      box-shadow: var(--box-shedow);
+    }
+
+    .header .logo {
+      font-size: 2.5rem;
+      font-weight: bolder;
+      color: var(--black);
+    }
+
+    .header .logo i {
+      color: #ff7800;
+    }
+
+    .header .navbar a {
+      font-size: 1.7rem;
+      margin: 0 1rem;
+      color: var(--black);
+    }
+
+    .header .navbar a:hover {
+      color: var(--orange);
+    }
+
+  
+    .sectiontag {
+        display: flex;
+        align-items: center;
+        margin-left: auto;
+        height: 700px;
+        
+        margin-left: 400px;
+      }
+      
+      .sectiontag form {
+        display: flex;
+        align-items: center;
+        border: var(--border);
+        border-radius: 2rem;
+        overflow: hidden;
+        box-shadow: var(--box-shedow);
+      }
+      
+      .sectiontag input[type="text"] {
+        margin: 0 auto;
+        font-size: 1.6rem;
+        width: 40rem;
+        border: none;
+      }
+      
+      .sectiontag button[type="submit"] { 
+        background: var(--orange);
+        color: #fff;
+        padding: 1.5rem 2.5rem;
+        font-size: 1.6rem;
+        border: none;
+        cursor: pointer;
+      }
+      
+      .sectiontag button[type="submit"]:hover {
+        background: var(--black);
+        max-width: fit-content;
+        border: var(--outline-hover);
+        transition: all 0.5s ease;
+
+
+        /* Styles for screens smaller than 768px */
+  @media (max-width: 768px) {
+    .sectiontag {
+      display: block;
+    }
+    .hashtags {
+      width: 100%;
+    }
+  }
+      }
+  </style>
+  <header class="header">
+    <a href="#" class="logo"><i class="fas fa-shopping-basket"></i>Hashtag Generator</a>
+    <nav class="navbar">
+      <a href="#">Home</a>
+      <a href="#">About Us</a>
+    </nav>
+  </header> 
+</head>
+<body>
+<!-- search section start -->
+<section class="sectiontag" style="text-align: center;">
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <!-- <div style="border: 1px solid black; padding: 10px;"> -->
+      <div class="hashtags">
+         <!-- Add content here -->
+      <!-- </div> -->
+    </div>
+    <form action="#" method="post" style="margin-top: 10px;">
+      <input type="text" placeholder="Enter your Text" name="input">
+      <button type="submit" value="generate hashtags">Generate</button>
+    </form>
+  </div>
+</section>
+</body>
+</html>

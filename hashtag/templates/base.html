@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hashtag Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+        text-decoration: none;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: #f8f9fd;
+        color: #333;
+      }
+
+      /* Header Section */
+      header {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        background: linear-gradient(90deg, #ff5f6d, #ffc371);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        padding: 15px 10%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        animation: slideDown 1s ease forwards;
+      }
+
+      @keyframes slideDown {
+        0% {
+          transform: translateY(-100%);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #fff;
+        letter-spacing: 1px;
+      }
+
+      nav.navbar ul {
+        list-style: none;
+        display: flex;
+        gap: 25px;
+      }
+
+      nav.navbar ul li a {
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 500;
+        padding: 8px 16px;
+        border-radius: 30px;
+        transition: 0.3s ease;
+      }
+
+      nav.navbar ul li a:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+      }
+
+      #menu-bar {
+        display: none;
+      }
+
+      header label {
+        display: none;
+        font-size: 28px;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      /* Mobile Navigation */
+      @media (max-width: 768px) {
+        header {
+          padding: 15px 20px;
+        }
+
+        header label {
+          display: block;
+        }
+
+        nav.navbar {
+          position: absolute;
+          top: 70px;
+          left: 0;
+          right: 0;
+          background: #ff5f6d;
+          display: none;
+          flex-direction: column;
+          align-items: center;
+          padding: 20px 0;
+        }
+
+        nav.navbar ul {
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        #menu-bar:checked ~ nav.navbar {
+          display: flex;
+        }
+      }
+
+      /* Color Grid Section Below Header */
+      .color-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        margin-top: 80px;
+        padding: 20px;
+        gap: 10px;
+        animation: fadeIn 1.2s ease-in;
+      }
+
+      .color-grid div {
+        height: 100px;
+        border-radius: 10px;
+        transition: transform 0.3s ease;
+      }
+
+      .color-grid div:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+      }
+
+      .color1 { background: #ff6b6b; }
+      .color2 { background: #feca57; }
+      .color3 { background: #48dbfb; }
+      .color4 { background: #1dd1a1; }
+      .color5 { background: #5f27cd; }
+      .color6 { background: #00d2d3; }
+      .color7 { background: #ff9ff3; }
+      .color8 { background: #ff793f; }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+    #scrollTopBtn {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 25px;
+      z-index: 100;
+      font-size: 18px;
+      background: #2575fc;
+      color: white;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transition: background 0.3s ease;
+    }
+
+    #scrollTopBtn:hover {
+      background: #1a5de0;
+    }
+
+    /* Footer */
+    footer {
+      background: linear-gradient(90deg, #ff5f6d, #ffc371);
+      text-align: center;
+      padding: 20px;
+      color: white;
+      font-weight: 500;
+      margin-top: 40px;
+      animation: fadeIn 2s ease;
+    }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <a href="#" class="logo">#HashtagGen</a>
+
+      <input type="checkbox" id="menu-bar">
+      <label for="menu-bar">&#9776;</label>
+
+      <nav class="navbar">
+        <ul>
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="{% url 'features' %}">Features</a></li>
+          <li><a href="{% url 'about' %}">About</a></li>
+          <li><a href="{% url 'contact' %}">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section class="color-grid">
+    </section>
+
+    {% block content %}
+    {% endblock content %}
+
+
+  <button onclick="scrollToTop()" id="scrollTopBtn" title="Go to top">↑</button>
+
+  <footer>
+    © 2023 HashtagGen | Developed by Parag Hadiya
+  </footer>
+
+  <script>
+    const topBtn = document.getElementById("scrollTopBtn");
+    window.onscroll = function () {
+      topBtn.style.display = window.scrollY > 100 ? "block" : "none";
+    };
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  </script>
+  </body>
+</html>
